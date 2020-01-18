@@ -80,7 +80,8 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
         ReactApplicationContext reactContext = getReactApplicationContext();
 
         PeerConnectionFactory.initialize(
-            PeerConnectionFactory.InitializationOptions.builder(reactContext)
+			PeerConnectionFactory.InitializationOptions.builder(reactContext)
+				.setFieldTrials("WebRTC-FlexFEC-03-Advertised/Enabled/WebRTC-FlexFEC-03/Enabled/")
                 .createInitializationOptions());
 
         AudioDeviceModule adm = null;
@@ -102,7 +103,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
                     = new DefaultVideoEncoderFactory(
                     eglContext,
                     /* enableIntelVp8Encoder */ true,
-                    /* enableH264HighProfile */ false);
+                    /* enableH264HighProfile */ true);
                 decoderFactory = new DefaultVideoDecoderFactory(eglContext);
             } else {
                 encoderFactory = new SoftwareVideoEncoderFactory();
