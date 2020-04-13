@@ -42,6 +42,8 @@
 
 #if !TARGET_IPHONE_SIMULATOR
   RTCCameraVideoCapturer *videoCapturer = [[RTCCameraVideoCapturer alloc] initWithDelegate:videoSource];
+  NSInteger landscapeLock = [constraints[@"iosLandscapeLock"] intValue];
+  [videoCapturer setLockLandscape:landscapeLock];
   VideoCaptureController *videoCaptureController
         = [[VideoCaptureController alloc] initWithCapturer:videoCapturer
                                             andConstraints:constraints[@"video"]];

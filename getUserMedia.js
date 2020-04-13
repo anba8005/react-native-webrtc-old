@@ -10,7 +10,7 @@ import permissions from './Permissions';
 const { WebRTCModule } = NativeModules;
 
 
-export default function getUserMedia(constraints = {}) {
+export default function getUserMedia(constraints = {}, iosLandscapeLock = 0) {
   // According to
   // https://www.w3.org/TR/mediacapture-streams/#dom-mediadevices-getusermedia,
   // the constraints argument is a dictionary of type MediaStreamConstraints.
@@ -25,6 +25,9 @@ export default function getUserMedia(constraints = {}) {
 
   // Normalize constraints.
   constraints = RTCUtil.normalizeConstraints(constraints);
+
+  // add ios landscape lock
+  constraints.iosLandscapeLock = Number.parseInt(iosLandscapeLock);
 
   // Request required permissions
   const reqPermissions = [];
