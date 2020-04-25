@@ -1,8 +1,11 @@
 package com.oney.WebRTCModule;
 
+import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
+
+import java.util.Map;
 
 
 public class RTCVideoViewManager extends SimpleViewManager<WebRTCView> {
@@ -16,6 +19,17 @@ public class RTCVideoViewManager extends SimpleViewManager<WebRTCView> {
   @Override
   public WebRTCView createViewInstance(ThemedReactContext context) {
     return new WebRTCView(context);
+  }
+
+  /**
+   * This method maps the sending of the "onStats" event to the JS "onStats" function.
+   */
+  @Override
+  public Map<String, Object> getExportedCustomDirectEventTypeConstants() {
+    return MapBuilder.<String, Object>builder()
+            .put("onStats",
+                    MapBuilder.of("registrationName", "onStats"))
+            .build();
   }
 
   /**
@@ -70,5 +84,10 @@ public class RTCVideoViewManager extends SimpleViewManager<WebRTCView> {
   @ReactProp(name = "zOrder")
   public void setZOrder(WebRTCView view, int zOrder) {
     view.setZOrder(zOrder);
+  }
+
+  @ReactProp(name = "statsPeriod")
+  public void setStatsPeriod(WebRTCView view, int statsPeriod) {
+    view.setStatsPeriod(statsPeriod);
   }
 }

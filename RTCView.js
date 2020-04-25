@@ -5,6 +5,7 @@ import {
   NativeModules,
   requireNativeComponent,
 } from 'react-native';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 const {WebRTCModule} = NativeModules;
@@ -53,7 +54,9 @@ const RTCView = {
      * remote video(s) which appear in the background, and 1 for the local
      * video(s) which appear above the remote video(s).
      */
-    zOrder: PropTypes.number
+	zOrder: PropTypes.number,
+	statsPeriod: PropTypes.number,
+	onStats: PropTypes.func,
   },
 };
 
@@ -68,4 +71,24 @@ const View = requireNativeComponent('RTCVideoView', RTCView, {nativeOnly: {
   nativeID: true,
 }});
 
-export default View;
+class WrappedView extends React.Component {
+	constructor(props) {
+	  super(props);
+	  this._onStats = this._onStats.bind(this);
+	}
+
+	_onStats(event) {
+	  if (!this.props.onStats) {
+		return;
+	  }
+	  this.props.onStats(event.nativeEvent);
+	}
+
+	render() {
+	  return <View {...this.props} onStats={this._onStats} />;
+	}
+  }
+
+WrappedView.propTypes = View.propTypes;
+
+export default WrappedView;
